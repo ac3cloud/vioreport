@@ -2,7 +2,7 @@
 #
 # 2017-02-26 Youzhen Cheng, Youzhen.Cheng@ac3.com.au
 #
-
+# TODO: MAke this dynamic via mount
 for each in $( cat \
 	/usr/ac3/dcj-esx-*/esx-*/esx.list \
 	| egrep -v '^ *(#|$)' \
