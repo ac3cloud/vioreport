@@ -5,7 +5,7 @@
 #export GDFONTPATH=/usr/share/fonts/liberation:${GDFONTPATH}
 export GDFONTPATH=/usr/share/fonts/open-sans:${GDFONTPATH}
 
-report=${1:-/home/youzhen/doj/i1-mgt-mon01-day.report}
+report=${1:-/usr/ac3/doj/i1-mgt-mon01-day.report}
 debug=${2:-0}
 report_home=${3:-${HOME}/vir}
 

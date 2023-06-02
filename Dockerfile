@@ -8,7 +8,7 @@ RUN yum -y update && \
     yum -y install wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli && \
     yum clean all && \
     rm -rf /var/cache/yum && \
-    mkdir -p /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-sy6 /usr/ac3/dcj-esx-sy7 /var/data
+    mkdir -p /usr/ac3/doj /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-sy6 /usr/ac3/dcj-esx-sy7 /var/data
 
 # Download and install TinyButStrong library and OpenTBS plugin
 RUN wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O /tmp/tbs_us.zip && \

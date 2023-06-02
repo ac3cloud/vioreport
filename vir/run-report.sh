@@ -2,7 +2,7 @@
 
 # run week view (7 day view) reports
 
-report=${1:-/home/youzhen/doj/doj-week.report}
+report=${1:-/usr/ac3/doj/doj-week.report}
 debug=${2:-0}
 control=${3:-all}
 report_home=${4:-${HOME}/vir}
