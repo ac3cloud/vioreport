@@ -2,7 +2,7 @@ FROM amazonlinux:latest
 ENV NO_HTTPD 1
 WORKDIR /
 RUN yum -y install wget unzip && mkdir -p /opt/vio && mkdir -p /usr/ac3/vir && mkdir -p /usr/ac3/reports && mkdir -p /usr/ac3/vio-data && mkdir -p /usr/share/php/tbs
-RUN cd /tmp && wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O tbs.zip && wget "https://www.tinybutstrong.com/download/download.php?file=tbs_plugin_opentbs.zip&sid=2" -o opentbs.zip && cd /usr/share/php/tbs && unzip /tmp/tbs.zip &&  /usr/share/php/tbs/plugins && unzip /tmp/opentbs.zip
+RUN cd /tmp && wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O tbs.zip && wget "https://www.tinybutstrong.com/download/download.php?file=tbs_plugin_opentbs.zip&sid=2" -o opentbs.zip && cd /usr/share/php/tbs && unzip /tmp/tbs.zip &&  cd /usr/share/php/tbs/plugins && unzip /tmp/opentbs.zip
 COPY ./vir/ /usr/ac3/vir
 COPY ./dcj-esx-sy6/ /usr/ac3/
 COPY ./dcj-esx-sy7/ /usr/ac3/
