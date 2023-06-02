@@ -11,10 +11,10 @@ RUN yum -y update && \
     mkdir -p /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-sy6 /usr/ac3/dcj-esx-sy7 /var/data
 
 # Download and install TinyButStrong library and OpenTBS plugin
-RUN wget -P /tmp "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O tbs_us.zip && \
-    wget -P /tmp "https://www.tinybutstrong.com/download/download.php?file=tbs_plugin_opentbs.zip&sid=2" -O tbs_plugin_opentbs.zip && \
+RUN wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O /tmp/tbs_us.zip && \
+    wget "https://www.tinybutstrong.com/download/download.php?file=tbs_plugin_opentbs.zip&sid=2" -O /tmp/tbs_plugin_opentbs.zip && \
     unzip /tmp/tbs_us.zip -d /usr/share/php/tbs && \
-    unzip /tmp/tbs_plugin_opentbs.zip -d /usr/share/php/tbs/plugins
+    unzip /tmp/tbs_plugin_opentbs.zip -d /usr/share/php/tbs/plugins && rm -f /tmp/*
 
 # Copy files to the appropriate locations
 COPY ./vir/ /usr/ac3/vir
