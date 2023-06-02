@@ -14,8 +14,7 @@ RUN yum -y update && \
 RUN wget -P /tmp "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" && \
     wget -P /tmp "https://www.tinybutstrong.com/download/download.php?file=tbs_plugin_opentbs.zip&sid=2" && \
     unzip /tmp/tbs_us.zip -d /usr/share/php/tbs && \
-    unzip /tmp/tbs_plugin_opentbs.zip -d /usr/share/php/tbs/plugins && \
-    rm /tmp/tbs_us.zip /tmp/tbs_plugin_opentbs.zip
+    unzip /tmp/tbs_plugin_opentbs.zip -d /usr/share/php/tbs/plugins
 
 # Copy files to the appropriate locations
 COPY ./vir/ /usr/ac3/vir
