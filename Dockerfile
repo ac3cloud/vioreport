@@ -16,4 +16,5 @@ RUN rpm -ivh --nodeps  /tmp/vio-data-1.0-4.ac3.el6.x86_64.rpm
 RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitoring::Plugin XML::LibXML Crypt::SSLeay SOAP::Lite
 RUN perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio-info.pl
 COPY ./vio-data/run-vio.sh /usr/ac3/vio-data
-RUN mkdir -p /opt/reports # This should be a bind mount from the OS
+COPY ./vio-data/vmware.authfile /usr/ac3
+RUN mkdir -p /var/data # This should be a bind mount from the OS
