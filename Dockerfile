@@ -5,7 +5,7 @@ ENV NO_HTTPD 1
 
 # Install necessary packages and create directories
 RUN yum -y update && \
-    yum -y install wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli && \
+    yum -y install vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie && \
     yum clean all && \
     rm -rf /var/cache/yum && \
     mkdir -p /usr/ac3/doj /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-sy6 /usr/ac3/dcj-esx-sy7 /var/data
@@ -29,11 +29,13 @@ RUN rpm -ivh --nodeps  /tmp/vio-data-1.0-4.ac3.el6.x86_64.rpm
 COPY ./vio-data/run-vio.sh /usr/ac3/vio-data
 COPY ./vio-data/vmware.authfile /usr/ac3
 # Install Perl modules
-RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitoring::Plugin XML::LibXML Crypt::SSLeay SOAP::Lite
+RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitoring::Plugin XML::LibXML Crypt::SSLeay SOAP::Lite DateTime JSON
 
 # Update script file
 RUN perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio-info.pl && perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio.pl
 
+RUN cat /usr/ac3/vio-data/vio-data.cron >> /etc/crontab
 # Define mount point for external data
 VOLUME /var/data
 
+CMD crond -n -s
