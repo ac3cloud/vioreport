@@ -5,10 +5,10 @@ ENV NO_HTTPD 1
 
 # Install necessary packages and create directories
 RUN yum -y update && \
-    yum -y install vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie && \
+    yum -y install vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie gnuplot-minimal && \
     yum clean all && \
     rm -rf /var/cache/yum && \
-    mkdir -p /usr/ac3/doj /usr/ac3/etc /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-sy6 /usr/ac3/dcj-esx-sy7 /var/data
+    mkdir -p /usr/ac3/doj /usr/ac3/etc /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-sy6 /usr/ac3/dcj-esx-sy7 /var/data /var/report/storage /var/report/vio
 
 # Download and install TinyButStrong library and OpenTBS plugin
 RUN wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O /tmp/tbs_us.zip && \
@@ -17,6 +17,7 @@ RUN wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O /tmp/tbs_us.
     unzip /tmp/tbs_plugin_opentbs.zip -d /usr/share/php/tbs/plugins && rm -f /tmp/*
 
 # Copy files to the appropriate locations
+COPY ./reports/NAA.csv /var/report/storage/
 COPY ./etc/customers.csv /usr/ac3/etc/
 COPY ./vir/ /usr/ac3/vir
 COPY ./dcj-esx-sy6/ /usr/ac3/dcj-esx-sy6/
@@ -30,7 +31,7 @@ RUN rpm -ivh --nodeps  /tmp/vio-data-1.0-4.ac3.el6.x86_64.rpm
 COPY ./vio-data/run-vio.sh /usr/ac3/vio-data
 COPY ./vio-data/vmware.authfile /usr/ac3
 # Install Perl modules
-RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitoring::Plugin XML::LibXML Crypt::SSLeay SOAP::Lite DateTime JSON
+RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitoring::Plugin XML::LibXML Crypt::SSLeay SOAP::Lite DateTime POSIX::strptime JSON
 
 # Update script file
 RUN perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio-info.pl && perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio.pl
