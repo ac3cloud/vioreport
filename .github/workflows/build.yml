@@ -5,10 +5,9 @@ jobs:
   validate:
       name: Build the app containers
       runs-on: ubuntu-latest
-      location_matrix:
-        strategy:
-          matrix:
-            sites: ['sy6','sy7']
+      strategy:
+        matrix:
+          sites: ['sy6','sy7']
       steps:
         - name: Checkout
           uses: actions/checkout@v2
