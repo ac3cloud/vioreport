@@ -26,7 +26,7 @@ jobs:
               ${{ runner.os }}-buildx-
         
         - name: Validate container, only if we are not on master as the publish will do the same on master
-          run: docker build -f Dockerfile.${{ matrix.sites }}
+          run: docker build -f Dockerfile.${{ matrix.sites }} .
           if: github.ref != 'refs/heads/master'
         
         - name: Log in to the Container registry
