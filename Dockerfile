@@ -2,7 +2,7 @@ FROM amazonlinux:latest
 
 # Set environment variable
 ENV NO_HTTPD 1
-
+ENV TZ=Australia/Sydney
 # Install necessary packages and create directories
 RUN yum -y update && \
     yum -y install vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie gnuplot-minimal && \
@@ -37,6 +37,8 @@ RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitorin
 RUN perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio-info.pl && perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio.pl
 
 RUN cat /usr/ac3/vio-data/vio-data.cron >> /etc/crontab
+RUN echo "0 9 1 * * root /usr/ac3/vir/run-report.sh > /dev/null 2>&1" >> /etc/crontab
+# TODO: Mail this out
 # Define mount point for external data
 VOLUME /var/data
 
