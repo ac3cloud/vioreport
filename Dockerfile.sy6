@@ -18,7 +18,7 @@ RUN wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O /tmp/tbs_us.
 
 # Copy files to the appropriate locations
 COPY ./reports/NAA.csv /var/report/storage/
-COPY ./etc/customers.csv /usr/ac3/etc/
+COPY ./etc/customer.csv /usr/ac3/etc/
 COPY ./vir/ /usr/ac3/vir
 COPY ./dcj-esx-sy6/ /usr/ac3/dcj-esx-sy6/
 #COPY ./dcj-esx-sy7/ /usr/ac3/dcj-esx-sy7/
