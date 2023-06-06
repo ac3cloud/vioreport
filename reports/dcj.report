@@ -1,0 +1,16 @@
+# Week View Previous Month
+tenant = DOJ|DAGJ|CSNSW|AGD|JJ
+customer = DOJ
+view = week
+#bht = 30
+#aht = 360
+# BH 10 hours per month 2.5 hours per week = 150 min
+# aH 30 hours per month 7.5 hours per week = 450 min
+bht = 150
+aht = 450
+pricebook = /usr/ac3/etc/pricebook-doj.csv
+cbamap = /usr/ac3/etc/doj-cba.map
+datadir = /var/report
+vmsmap = /var/report/vio.info
+read_begin = _1LastMonth_
+read_end = _1ThisMonth_
