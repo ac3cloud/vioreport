@@ -1,0 +1,59 @@
+name: DCJ Container build validation and release
+on: [push]
+
+jobs:
+  validate:
+      name: Build the app containers
+      runs-on: ubuntu-latest
+      location_matrix:
+        strategy:
+          matrix:
+            sites: ['sy6','sy7']
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        - name: Get the current branch name
+          shell: bash
+          run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+          id: ghbranch
+
+        - name: Cache Docker layers
+          uses: actions/cache@v2
+          with:
+            path: /tmp/.buildx-cache
+            key: ${{ runner.os }}-buildx-${{ github.sha }}
+            restore-keys: |
+              ${{ runner.os }}-buildx-
+        
+        - name: Validate container, only if we are not on master as the publish will do the same on master
+          run: docker build -f Dockerfile.${{ matrix.sites }}
+          if: github.ref != 'refs/heads/master'
+        
+        - name: Log in to the Container registry
+          uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+          with:
+            registry: 'ghcr.io'
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Push to GitHub Packages - Production
+          uses: docker/build-push-action@v2
+          with:
+            file: Dockerfile.${{ matrix.sites }}
+            context: '.'
+            push: ${{ github.ref == 'refs/heads/master' }}
+            cache-from: type=registry,ref=ac3cloud/vioreport/vioreport-${{ matrix.sites }}:latest
+            cache-to: type=inline
+            tags: ghcr.io/ac3cloud/vioreports/vioreport-${{ matrix.sites }}:latest
+          if: github.ref == 'refs/heads/master'
+
+        - name: Push to GitHub Packages - Development
+          uses: docker/build-push-action@v2
+          with:
+            context: '.'
+            push: ${{ github.ref != 'refs/heads/master' }}
+            cache-from: type=registry,ref=ac3cloud/vioreport-${{ matrix.sites }}:${{ steps.ghbranch.outputs.branch }}
+            cache-to: type=inline
+            tags: ghcr.io/ac3cloud/vioreport-${{ matrix.sites }}:${{ steps.ghbranch.outputs.branch }}
+          if: github.ref != 'refs/heads/master'
