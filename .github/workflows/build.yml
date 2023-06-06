@@ -26,7 +26,7 @@ jobs:
               ${{ runner.os }}-buildx-
         
         - name: Validate container, only if we are not on master as the publish will do the same on master
-          run: docker build -f Dockerfile.${{ matrix.sites }} .
+          run: docker build --build-arg location=${{ matrix.sites }} .
           if: github.ref != 'refs/heads/master'
         
         - name: Log in to the Container registry
@@ -39,11 +39,11 @@ jobs:
         - name: Push to GitHub Packages - Production
           uses: docker/build-push-action@v2
           with:
-            file: Dockerfile.${{ matrix.sites }}
             context: '.'
             push: ${{ github.ref == 'refs/heads/master' }}
             cache-from: type=registry,ref=ac3cloud/vioreport/vioreport-${{ matrix.sites }}:latest
             cache-to: type=inline
+            build-args: location=${{ matrix.sites }}
             tags: ghcr.io/ac3cloud/vioreports/vioreport-${{ matrix.sites }}:latest
           if: github.ref == 'refs/heads/master'
 
@@ -54,5 +54,6 @@ jobs:
             push: ${{ github.ref != 'refs/heads/master' }}
             cache-from: type=registry,ref=ac3cloud/vioreport-${{ matrix.sites }}:${{ steps.ghbranch.outputs.branch }}
             cache-to: type=inline
+            build-args: location=${{ matrix.sites }}
             tags: ghcr.io/ac3cloud/vioreport-${{ matrix.sites }}:${{ steps.ghbranch.outputs.branch }}
           if: github.ref != 'refs/heads/master'

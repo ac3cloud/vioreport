@@ -1,5 +1,6 @@
 FROM amazonlinux:latest
-
+ARG location
+ENV site_location $location
 # Set environment variable
 ENV NO_HTTPD 1
 ENV TZ=Australia/Sydney
@@ -8,7 +9,7 @@ RUN yum -y update && \
     yum -y install tzdata vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie gnuplot-minimal && \
     yum clean all && \
     rm -rf /var/cache/yum && \
-    mkdir -p /usr/ac3/doj /usr/ac3/etc /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-sy6 /usr/ac3/dcj-esx-sy7 /var/data /var/report/storage /var/report/vio
+    mkdir -p /usr/ac3/doj /usr/ac3/etc /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-$location /var/data /var/report/storage /var/report/vio
 
 # Download and install TinyButStrong library and OpenTBS plugin
 RUN wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O /tmp/tbs_us.zip && \
@@ -20,8 +21,7 @@ RUN wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O /tmp/tbs_us.
 COPY ./reports/NAA.csv /var/report/storage/
 COPY ./etc/customer.csv /usr/ac3/etc/
 COPY ./vir/ /usr/ac3/vir
-#COPY ./dcj-esx-sy6/ /usr/ac3/dcj-esx-sy6/
-COPY ./dcj-esx-sy7/ /usr/ac3/dcj-esx-sy7/
+COPY ./dcj-esx-$location/ /usr/ac3/dcj-esx-$location/
 COPY ./reports/ /usr/ac3/reports
 COPY ./rpms/vio-data-1.0-4.ac3.el6.x86_64.rpm /tmp/
 COPY ./jmerge/jmerge.php /usr/ac3/bin/jmerge.php
