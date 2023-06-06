@@ -7,5 +7,5 @@ services:
     network_mode: "host"
     container_name: "viodata-sy6"
     volumes:
-      - /mnt/data:/var/data
-      - /mnt/dcj:/root/vir/dcj
+      - /mnt/viodata/data:/var/data
+      - /mnt/viodata/dcj:/root/vir/dcj
