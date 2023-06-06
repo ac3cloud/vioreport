@@ -5,7 +5,7 @@ ENV NO_HTTPD 1
 ENV TZ=Australia/Sydney
 # Install necessary packages and create directories
 RUN yum -y update && \
-    yum -y install vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie gnuplot-minimal && \
+    yum -y install tzdata vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie gnuplot-minimal && \
     yum clean all && \
     rm -rf /var/cache/yum && \
     mkdir -p /usr/ac3/doj /usr/ac3/etc /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-sy6 /usr/ac3/dcj-esx-sy7 /var/data /var/report/storage /var/report/vio
