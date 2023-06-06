@@ -45,7 +45,6 @@ $template = 'runsheet.html';
 $output   = '-';
 $var_template = 'template';
 $var_data = 'data';
-
 if (isset($options['c']))
 {
 	$config_file = $options['c'];
@@ -138,9 +137,9 @@ if (file_exists($config_file))
 }
 else
 {
-	$conf['section'][0]{'sheet'} = 'default';
-	$conf['section'][0]{'var_data'} = $var_data;
-	$conf['section'][0]{'var_template'} = $var_template;
+	$conf['section'][0]['sheet'] = 'default';
+	$conf['section'][0]['var_data'] = $var_data;
+	$conf['section'][0]['var_template'] = $var_template;
 	//var_dump($sections);
 	//var_dump($conf['section']);
 	//foreach ($conf['section'] as &$section)
@@ -178,11 +177,11 @@ $TBS->LoadTemplate($template);
 
 foreach ($conf['section'] as &$section)
 {
-	if ( isset($section{'sheet'}) )
+	if ( isset($section['sheet']) )
 	{
-		$sheet = $section{'sheet'};
-		$var_data = $section{'var_data'};
-		$var_template = $section{'var_template'};
+		$sheet = $section['sheet'];
+		$var_data = $section['var_data'];
+		$var_template = $section['var_template'];
 
 		//printf("%s,%s,%s\n", $section{'sheet'},
 		//	$section{'var_template'},
@@ -240,7 +239,7 @@ foreach ($conf['section'] as &$section)
 			//$TBS->MergeBlock('contacts',$Contacts);
 		}
 
-		$data = $Config{$var_data};
+		$data = $Config[$var_data];
 		$TBS->MergeBlock($var_template, $data);
 	}
 }
