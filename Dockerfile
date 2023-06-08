@@ -9,7 +9,7 @@ RUN yum -y update && \
     yum -y install tzdata vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie gnuplot-minimal && \
     yum clean all && \
     rm -rf /var/cache/yum && \
-    mkdir -p /var/data /root/vir/dcj /usr/ac3/doj /usr/ac3/etc /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-$location /var/data /var/report/storage /var/report/vio
+    mkdir -p /var/report /var/data /root/vir/dcj /usr/ac3/doj /usr/ac3/etc /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-$location /var/data /var/report/storage /var/report/vio
 
 # Download and install TinyButStrong library and OpenTBS plugin
 RUN wget "https://www.tinybutstrong.com/dl.php?f=tbs_us.zip&s=2" -O /tmp/tbs_us.zip && \
@@ -42,6 +42,7 @@ RUN echo "0 9 1 * * root /usr/ac3/vir/run-report.sh > /dev/null 2>&1" >> /etc/cr
 
 # Define mount point for external data
 VOLUME /var/data
+VOLUME /var/report
 VOLUME /root/vir/dcj
 
 CMD crond -n -s
