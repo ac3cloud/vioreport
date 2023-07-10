@@ -1,9 +1,7 @@
 FROM amazonlinux:latest
 ARG location
-ARG ss_smtp
-ARG email_recipient
-ENV email $email_recipient
-ENV smtp_server $ss_smtp
+ENV email_recipient
+ENV smtp_hostname
 ENV site_location $location
 # Set environment variable
 ENV NO_HTTPD 1
