@@ -6,7 +6,7 @@ report=${1:-/usr/ac3/reports/dcj.report}
 debug=${2:-0}
 control=${3:-all}
 report_home=${4:-${HOME}/vir}
-
+date=$(date +%d-%m-%y)
 report_base=$(basename ${report} .report)
 
 if [ ! -d ${report_home}/${report_base} ]; then
@@ -104,6 +104,6 @@ $run_xlsx && /usr/ac3/vir/report-data.pl \
 	| /usr/ac3/bin/jmerge.php \
 		-t /usr/ac3/vir/vir-template.xlsx \
 		-T v \
-		-o report.xlsx
-
+		-o /var/data/report-$date.xlsx
+$run_xlsx && echo "DCJ IOPS Report for $location" | mailx -s "DCJ IOPS Report for $location" -A /usr/ac3/vir/vir-template.xlsx -S smtp="$smtp_server:25" $email
 $run_plot && /usr/ac3/vir/do-plot.sh ${report} ${debug}

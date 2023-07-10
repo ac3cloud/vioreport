@@ -1,12 +1,16 @@
 FROM amazonlinux:latest
 ARG location
+ARG ss_smtp
+ARG email_recipient
+ENV email $email_recipient
+ENV smtp_server $ss_smtp
 ENV site_location $location
 # Set environment variable
 ENV NO_HTTPD 1
 ENV TZ=Australia/Sydney
 # Install necessary packages and create directories
 RUN yum -y update && \
-    yum -y install tzdata vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie gnuplot-minimal && \
+    yum -y install tzdata mailx vim wget unzip perl yum-utils uuid-devel findutils php8.1 php8.1-cli cronie gnuplot-minimal && \
     yum clean all && \
     rm -rf /var/cache/yum && \
     mkdir -p /var/report /var/data /root/vir/dcj /usr/ac3/doj /usr/ac3/etc /opt/vio /usr/ac3/vir /usr/ac3/reports /usr/ac3/vio-data /usr/share/php/tbs /usr/ac3/dcj-esx-$location /var/data /var/report/storage /var/report/vio
@@ -37,8 +41,7 @@ RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitorin
 RUN perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio-info.pl && perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio.pl
 
 RUN cat /usr/ac3/vio-data/vio-data.cron >> /etc/crontab
-RUN echo "0 9 1 * * root /usr/ac3/vir/run-report.sh > /dev/null 2>&1" >> /etc/crontab
-# TODO: Mail this out
+RUN echo "0 9 2 * * root /usr/ac3/vir/run-report.sh > /dev/null 2>&1" >> /etc/crontab
 
 # Define mount point for external data
 VOLUME /var/data
