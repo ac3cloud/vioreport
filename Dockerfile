@@ -22,6 +22,8 @@ COPY ./reports/NAA.csv /var/report/storage/
 COPY ./etc/customer.csv /usr/ac3/etc/
 COPY ./vir/ /usr/ac3/vir
 COPY ./dcj-esx-$location/ /usr/ac3/dcj-esx-$location/
+COPY ./reports/pricebook-doj.csv /usr/ac3/etc/
+COPY ./reports/doj-cba.map /usr/ac3/etc/
 COPY ./reports/ /usr/ac3/reports
 COPY ./rpms/vio-data-1.0-4.ac3.el6.x86_64.rpm /tmp/
 COPY ./jmerge/jmerge.php /usr/ac3/bin/jmerge.php
