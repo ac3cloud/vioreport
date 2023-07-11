@@ -37,7 +37,8 @@ RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitorin
 
 # Update script file
 RUN perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio-info.pl && perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio.pl
-
+# TOTAL HACK JOB IM PROUD OF THIS
+RUN sed '52 $ssl_opts->{SSL_verify_mode} = 0;' /usr/local/share/perl5/5.32/LWP/UserAgent.pm
 RUN cat /usr/ac3/vio-data/vio-data.cron >> /etc/crontab
 RUN echo "0 9 2 * * root /usr/ac3/vir/run-report.sh > /dev/null 2>&1" >> /etc/crontab
 
