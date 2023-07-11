@@ -34,7 +34,7 @@ COPY ./vio-data/run-vio.sh /usr/ac3/vio-data
 COPY ./vio-data/vmware.authfile /usr/ac3
 # Install Perl modules
 RUN perl -MCPAN -e 'CPAN::Shell->notest("install", $_) for @ARGV' UUID Monitoring::Plugin XML::LibXML Crypt::SSLeay SOAP::Lite DateTime POSIX::strptime JSON
-# Dowgrade LWP
+# Dowgrade LWP to hack SSL checks
 RUN perl -MCPAN -e 'CPAN::Shell->notest("install", "OALDERS/libwww-perl-6.68.tar.gz");'
 # Update script file
 RUN perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio-info.pl && perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio.pl
