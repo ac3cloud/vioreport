@@ -1,0 +1,11 @@
+services:
+  viodata:
+    image: docker.pkg.github.com/ac3cloud/vioreport/vioreport-sy7:latest
+    environment:
+      location: "sy7"
+    restart: unless-stopped
+    network_mode: "host"
+    container_name: "viodata-sy7"
+    volumes:
+      - /mnt/viodata/data:/var/data
+      - /mnt/viodata/dcj:/root/vir/dcj

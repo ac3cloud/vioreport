@@ -2,11 +2,11 @@
 
 # run week view (7 day view) reports
 
-report=${1:-/home/youzhen/doj/doj-week.report}
+report=${1:-/usr/ac3/reports/dcj.report}
 debug=${2:-0}
 control=${3:-all}
 report_home=${4:-${HOME}/vir}
-
+date=$(date +%d-%m-%y)
 report_base=$(basename ${report} .report)
 
 if [ ! -d ${report_home}/${report_base} ]; then
@@ -104,6 +104,6 @@ $run_xlsx && /usr/ac3/vir/report-data.pl \
 	| /usr/ac3/bin/jmerge.php \
 		-t /usr/ac3/vir/vir-template.xlsx \
 		-T v \
-		-o report.xlsx
-
+		-o /var/data/report-$date.xlsx
+$run_xlsx && echo "DCJ IOPS Report for $location" | mailx -s "DCJ IOPS Report for $location" -a /var/data/report-$date.xlsx -r dcjiops-$location@operations.ac3.com.au -S smtp="$ss_smtp:25" $email_recipient
 $run_plot && /usr/ac3/vir/do-plot.sh ${report} ${debug}
