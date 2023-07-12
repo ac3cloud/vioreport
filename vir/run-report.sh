@@ -105,5 +105,5 @@ $run_xlsx && /usr/ac3/vir/report-data.pl \
 		-t /usr/ac3/vir/vir-template.xlsx \
 		-T v \
 		-o /var/data/report-$date.xlsx
-$run_xlsx && echo "DCJ IOPS Report for $location" | mailx -s "DCJ IOPS Report for $location" -A /var/data/report-$date.xlsx -S smtp="$smtp_hostname:25" $email_recipient
+$run_xlsx && echo "DCJ IOPS Report for $location" | mailx -s "DCJ IOPS Report for $location" -a /var/data/report-$date.xlsx -r dcjiops-$location@operations.ac3.com.au -S smtp="$ss_smtp:25" $email_recipient
 $run_plot && /usr/ac3/vir/do-plot.sh ${report} ${debug}
