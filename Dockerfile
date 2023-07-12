@@ -41,7 +41,7 @@ RUN perl -pi -e "s/Nagios/Monitoring/g" /usr/ac3/vio-data/vio-info.pl && perl -p
 # TOTAL HACK JOB IM PROUD OF THIS
 RUN awk 'NR==51{print "    $ssl_opts->{SSL_verify_mode} = 0;"}1' /usr/local/share/perl5/5.32/LWP/UserAgent.pm > /tmp/UserAgent.pm && mv /tmp/UserAgent.pm /usr/local/share/perl5/5.32/LWP/UserAgent.pm
 RUN cat /usr/ac3/vio-data/vio-data.cron >> /etc/crontab
-RUN echo "0 9 2 * * root /usr/ac3/vir/run-report.sh > /dev/null 2>&1" >> /etc/crontab
+RUN echo "0 4 2 * * root /usr/ac3/vir/run-report.sh > /dev/null 2>&1" >> /etc/crontab
 
 # Define mount point for external data
 VOLUME /var/data
