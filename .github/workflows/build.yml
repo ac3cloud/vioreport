@@ -25,9 +25,9 @@ jobs:
             restore-keys: |
               ${{ runner.os }}-buildx-
         
-        - name: Validate container, only if we are not on master as the publish will do the same on master
+        - name: Validate container, only if we are not on main as the publish will do the same on master
           run: docker build --build-arg location=${{ matrix.sites }} .
-          if: github.ref != 'refs/heads/master'
+          if: github.ref != 'refs/heads/main'
         
         - name: Log in to the Container registry
           uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -40,20 +40,20 @@ jobs:
           uses: docker/build-push-action@v2
           with:
             context: '.'
-            push: ${{ github.ref == 'refs/heads/master' }}
+            push: ${{ github.ref == 'refs/heads/main' }}
             cache-from: type=registry,ref=ac3cloud/vioreport/vioreport-${{ matrix.sites }}:latest
             cache-to: type=inline
             build-args: location=${{ matrix.sites }}
             tags: ghcr.io/ac3cloud/vioreports/vioreport-${{ matrix.sites }}:latest
-          if: github.ref == 'refs/heads/master'
+          if: github.ref == 'refs/heads/main'
 
         - name: Push to GitHub Packages - Development
           uses: docker/build-push-action@v2
           with:
             context: '.'
-            push: ${{ github.ref != 'refs/heads/master' }}
+            push: ${{ github.ref != 'refs/heads/main' }}
             cache-from: type=registry,ref=ac3cloud/vioreport-${{ matrix.sites }}:${{ steps.ghbranch.outputs.branch }}
             cache-to: type=inline
             build-args: location=${{ matrix.sites }}
             tags: ghcr.io/ac3cloud/vioreport-${{ matrix.sites }}:${{ steps.ghbranch.outputs.branch }}
-          if: github.ref != 'refs/heads/master'
+          if: github.ref != 'refs/heads/main'
